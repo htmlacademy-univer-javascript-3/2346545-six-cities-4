@@ -9,11 +9,11 @@ import OfferScreen from '../../pages/offer-page/offer-page';
 import NotFoundScreen from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offer';
-import { Review } from '../../types/review';
+import { ReviewType } from '../../types/review';
 
 type AppScreenProps = {
     offers: Offer[];
-    reviews: Review[];
+    reviews: ReviewType[];
 }
 
 export default function App({ offers, reviews }: AppScreenProps): JSX.Element {

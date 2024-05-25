@@ -4,19 +4,23 @@ import { getRatingStars } from '../../const/utils';
 import { AdClasses } from '../../const/const';
 
 type OfferCardProps = {
-  offer: Offer;
-  isMainScreen: boolean;
-  onCardMouseOver(id:number): void;
+	offer: Offer;
+	isMainScreen: boolean;
+	onCardMouseOver(id: number): void;
 };
 
 export default function OfferCard({ offer, isMainScreen, onCardMouseOver }: OfferCardProps): JSX.Element {
-  const {id, title, type, price, isPremium, isFavorite, previewImage: image, rating} = offer;
+  const { id, title, type, price, isPremium, isFavorite, previewImage: image, rating } = offer;
   return (
     <article className={isMainScreen ? AdClasses.ArticleMainAdClass : AdClasses.ArticlePropertyAdClass}
-      id ={offer.id.toString()}
-      onMouseOver={(evt)=> {
+      id={offer.id.toString()}
+      onMouseOver={(evt) => {
         const target = evt.currentTarget as HTMLElement;
         onCardMouseOver(+target.id);
+      }}
+      onMouseLeave={(evt) => {
+        const target = evt.currentTarget as HTMLElement;
+        onCardMouseOver(-target.id);
       }}
     >
       {

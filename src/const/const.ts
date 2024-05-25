@@ -33,8 +33,10 @@ export enum CitiesName {
 }
 
 export enum Actions {
-	PICK_CITY = 'PICK_CITY',
 	FILTER_OFFERS = 'FILTER_OFFERS',
+	LOAD_OFFERS = 'LOAD_OFFERS',
+	PICK_CITY = 'PICK_CITY',
+	SET_STATUS_OFFERS_DATA_LOADING = 'SET_STATUS_OFFERS_DATA_LOADING',
 }
 
 export enum SortingTypes {
@@ -44,6 +46,9 @@ export enum SortingTypes {
 	TopRated = 'Top rated first',
 }
 
+export enum APIRoute {
+	Offers = '/offers',
+}
 
 export const URL_MARKER_DEFAULT =
 	'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

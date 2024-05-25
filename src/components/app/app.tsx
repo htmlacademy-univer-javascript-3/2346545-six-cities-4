@@ -4,19 +4,28 @@ import { AppRoute, AuthorizationStatus } from '../../const/const';
 import { ReviewType } from '../../types/review';
 import { useAppSelector } from '../../hooks/index';
 
-import MainScreen from '../../pages/main-screen/main-screen';
 import FavoritesScreen from '../../pages/favorites-page/favorites-page';
+import LoadingScreen from '../../pages/loading-page/loading-page';
 import LoginScreen from '../../pages/login-page/login-page';
-import OfferScreen from '../../pages/offer-page/offer-page';
+import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-page/not-found-page';
+import OfferScreen from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route';
 
+
 type AppScreenProps = {
-    reviews: ReviewType[];
+	reviews: ReviewType[];
 }
 
 export default function App({ reviews }: AppScreenProps): JSX.Element {
-  const offers = useAppSelector((state)=>state.offers);
+  const offers = useAppSelector((state) => state.filteredOffers);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -24,12 +33,12 @@ export default function App({ reviews }: AppScreenProps): JSX.Element {
 
           <Route
             path={AppRoute.Root}
-            element={<MainScreen offers={offers}/>}
+            element={<MainScreen offers={offers} />}
           />
 
           <Route
             path={AppRoute.Login}
-            element={<LoginScreen/>}
+            element={<LoginScreen />}
           />
 
           <Route
@@ -38,19 +47,19 @@ export default function App({ reviews }: AppScreenProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen offers={offers}/>
+                <FavoritesScreen offers={offers} />
               </PrivateRoute>
             }
           />
 
           <Route
             path={AppRoute.Offer}
-            element={<OfferScreen offers={offers} reviews={reviews}/>}
+            element={<OfferScreen offers={offers} reviews={reviews} />}
           />
 
           <Route
             path="*"
-            element={<NotFoundScreen/>}
+            element={<NotFoundScreen />}
           />
 
         </Routes>

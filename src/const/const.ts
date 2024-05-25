@@ -36,7 +36,11 @@ export enum Actions {
 	FILTER_OFFERS = 'FILTER_OFFERS',
 	LOAD_OFFERS = 'LOAD_OFFERS',
 	PICK_CITY = 'PICK_CITY',
+	REDIRECT_ROUTE = 'REDIRECT_ROUTE',
+	REQUIRE_AUTHORIZATION = 'REQUIRE_AUTHORIZATION',
+	SET_ERROR = 'SET_ERROR',
 	SET_STATUS_OFFERS_DATA_LOADING = 'SET_STATUS_OFFERS_DATA_LOADING',
+	SET_USER_EMAIL = 'SET_USER_EMAIL',
 }
 
 export enum SortingTypes {
@@ -47,8 +51,12 @@ export enum SortingTypes {
 }
 
 export enum APIRoute {
+	Login = '/login',
+	Logout = '/logout',
 	Offers = '/offers',
 }
+
+export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const URL_MARKER_DEFAULT =
 	'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

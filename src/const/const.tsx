@@ -23,6 +23,21 @@ export enum MapClasses {
 	SectionPropertyMapClass = 'offer__map map',
   }
 
+export enum CitiesName {
+	AMSTERDAM = 'Amsterdam',
+	COLOGNE = 'Cologne',
+	PARIS = 'Paris',
+	DUSSELDORF = 'Dusseldorf',
+	BRUSSELS = 'Brussels',
+	HAMBURG = 'Hamburg',
+  }
+  
+export enum Actions {
+	PICK_CITY = 'PICK_CITY',
+	FILTER_OFFERS = 'FILTER_OFFERS',
+  }
+  
+
 export const URL_MARKER_DEFAULT =
 	'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 

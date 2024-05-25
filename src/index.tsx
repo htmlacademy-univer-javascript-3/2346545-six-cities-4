@@ -10,13 +10,13 @@ import ReactDOM from 'react-dom/client';
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
-  
-  root.render(
-	<React.StrictMode>
-	  <Provider store ={store}>
-		<App
-		  reviews = {reviews}
-		/>
-	  </Provider>
-	</React.StrictMode>,
+
+root.render(
+  <React.StrictMode>
+    <Provider store ={store}>
+      <App
+        reviews = {reviews}
+      />
+    </Provider>
+  </React.StrictMode>,
 );

@@ -19,7 +19,7 @@ export default function CitiesList({currentCity}: CitiesListProps): JSX.Element 
       }
       dispatch(pickCity(target.textContent));
       dispatch(filterOffers());
-	}}
+    }}
     >
       <li className="locations__item">
         <Link className={`locations__item-link tabs__item ${currentCity === CitiesName.PARIS ? 'tabs__item--active' : ''}`} to="#">

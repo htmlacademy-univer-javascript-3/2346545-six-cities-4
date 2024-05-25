@@ -4,4 +4,3 @@ export type initialStateType = {
     cityName: string | null;
     offers: Offer[];
   }
-  

@@ -1,6 +1,7 @@
 import { AuthorizationStatus, CitiesName } from '../const/const';
 import { createReducer } from '@reduxjs/toolkit';
-import { filterOffers, loadOffers, pickCity, requireAuthorization, setError, setOffersDataLoading, setUserEmail } from './action';
+import { filterOffers, loadNearbyOffers, loadOfferComments, loadOfferInfo, loadOffers, pickCity, requireAuthorization,
+  setCommentDataSending, setCurrentOfferDataLoading, setError, setOffersDataLoading, setUserEmail } from './action';
 import { initialStateType } from '../types/initial-state';
 
 
@@ -12,6 +13,13 @@ const initialState: initialStateType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: '',
   error: null,
+  currentOffer: {
+    offerInfo: null,
+    comments: [],
+    nearbyOffers: [],
+    isCommentDataSending: false,
+  },
+  isCurrentOfferDataLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -36,5 +44,20 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(loadOfferInfo, (state, action) => {
+      state.currentOffer.offerInfo = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.currentOffer.nearbyOffers = action.payload;
+    })
+    .addCase(loadOfferComments, (state, action) => {
+      state.currentOffer.comments = action.payload;
+    })
+    .addCase(setCurrentOfferDataLoading, (state, action) => {
+      state.isCurrentOfferDataLoading = action.payload;
+    })
+    .addCase(setCommentDataSending, (state, action) => {
+      state.currentOffer.isCommentDataSending = action.payload;
     });
 });

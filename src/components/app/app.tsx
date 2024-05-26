@@ -2,7 +2,6 @@ import { AppRoute } from '../../const/const';
 import { browserHistory } from '../../browser-history';
 import { HelmetProvider } from 'react-helmet-async';
 import { HistoryRouter } from '../history-route/history-route';
-import { ReviewType } from '../../types/review';
 import { Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/index';
 
@@ -15,15 +14,15 @@ import OfferScreen from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route';
 
 
-type AppScreenProps = {
-	reviews: ReviewType[];
-}
-
-export default function App({ reviews }: AppScreenProps): JSX.Element {
+export default function App(): JSX.Element {
   const offers = useAppSelector((state) => state.filteredOffers);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const offerComments = useAppSelector((state) => state.currentOffer.comments);
+  const nearbyOffers = useAppSelector((state) => state.currentOffer.nearbyOffers);
+  const offerInfo = useAppSelector((state) => state.currentOffer.offerInfo);
+  const isCurrenOfferDataLoading = useAppSelector((state) => state.isCurrentOfferDataLoading);
 
-  if (isOffersDataLoading) {
+  if (isOffersDataLoading || isCurrenOfferDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -54,7 +53,7 @@ export default function App({ reviews }: AppScreenProps): JSX.Element {
 
           <Route
             path={AppRoute.Offer}
-            element={<OfferScreen offers={offers} reviews={reviews} />}
+            element={<OfferScreen offer={offerInfo} reviews={offerComments} nearbyOffers={nearbyOffers} />}
           />
 
           <Route

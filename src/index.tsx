@@ -1,7 +1,7 @@
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { Provider } from 'react-redux';
-import { reviews } from './mocks/reviews';
 import { store } from './store';
+import { ToastContainer } from 'react-toastify';
 
 import App from './components/app/app';
 import React from 'react';
@@ -18,9 +18,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store ={store}>
-      <App
-        reviews = {reviews}
-      />
+      <ToastContainer />
+      <App/>
     </Provider>
   </React.StrictMode>,
 );

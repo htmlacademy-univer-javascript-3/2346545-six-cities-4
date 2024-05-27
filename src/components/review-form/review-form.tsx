@@ -1,4 +1,6 @@
+import { fetchOfferInfoAction } from '../../store/api-actions';
 import { FormEvent, useState } from 'react';
+import { getCommentDataSendingStatus } from '../../store/user-review/selectors';
 import { sendOfferCommentAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -12,7 +14,7 @@ export default function ReviewForm({id}: {id: string}): JSX.Element {
     review: '',
   });
 
-  const isCommentDataSending = useAppSelector((state) => state.currentOffer.isCommentDataSending);
+  const isCommentDataSending = useAppSelector(getCommentDataSendingStatus);
   const isSubmitDisabled = (formData.review.length < MIN_COMMENT_CHARACTERS) ||
   (formData.review.length > MAX_COMMENT_CHARACTERS) || (formData.rating === null) || isCommentDataSending;
   const dispatch = useAppDispatch();
@@ -38,6 +40,7 @@ export default function ReviewForm({id}: {id: string}): JSX.Element {
       comment: formData.review,
       rating: Number(formData.rating),
     }}));
+    dispatch(fetchOfferInfoAction(id));
   };
 
   return (

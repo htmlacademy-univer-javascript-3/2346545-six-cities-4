@@ -23,6 +23,14 @@ export enum MapClasses {
 	SectionPropertyMapClass = 'offer__map map'
 }
 
+export enum SlicesName {
+	Page = 'PAGE',
+	User = 'USER',
+	OffersData = 'OFFERS_DATA',
+	CurrentOfferData = 'CURRENT_OFFER_DATA',
+	UserReview = 'USER_REVIEW',
+}
+
 export enum CitiesName {
 	AMSTERDAM = 'Amsterdam',
 	COLOGNE = 'Cologne',
@@ -44,7 +52,9 @@ export enum Actions {
 	REQUIRE_AUTHORIZATION = 'REQUIRE_AUTHORIZATION',
 	SET_COMMENT_DATA_SENDING = 'SET_COMMENT_DATA_SENDING',
 	SET_CURRENT_OFFER_DATA_LOADING = 'SET_CURRENT_OFFER_DATA_LOADING',
+	SET_CURRENT_OFFER_ID = 'SET_CURRENT_OFFER_ID',
 	SET_ERROR = 'SET_ERROR',
+	SET_SORT_TYPE = 'SET_SORT_TYPE',
 	SET_STATUS_OFFERS_DATA_LOADING = 'SET_STATUS_OFFERS_DATA_LOADING',
 	SET_USER_EMAIL = 'SET_USER_EMAIL'
 }
@@ -63,8 +73,6 @@ export enum APIRoute {
 	NearbyOffers = '/nearby',
 	Offers = '/offers/'
 }
-
-export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const URL_MARKER_DEFAULT =
 	'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

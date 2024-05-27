@@ -1,5 +1,7 @@
+import { getCurrentOfferId } from '../../store/page-events/selectors';
 import { Icon, Marker } from 'leaflet';
 import { Offer } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 import { useRef, useEffect } from 'react';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MapClasses } from '../../const/const';
 
@@ -21,13 +23,13 @@ const currentCustomIcon = new Icon({
 
 type MapProps = {
 	offers: Offer[];
-	activeOfferId?: string;
 	isMainScreen: boolean;
 }
 
 
 export default function Map(props: MapProps): JSX.Element {
-  const { offers, activeOfferId, isMainScreen } = props;
+  const {offers, isMainScreen} = props;
+  const activeOfferId = useAppSelector(getCurrentOfferId);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, offers[0]);

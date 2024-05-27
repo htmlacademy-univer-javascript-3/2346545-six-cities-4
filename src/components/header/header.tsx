@@ -1,13 +1,17 @@
 import { AuthorizationStatus } from '../../const/const';
+import { getAuthorizationStatus } from '../../store/authorization-user-process/selectors';
+import { getUserEmail } from '../../services/user-email';
 import { Link } from 'react-router-dom';
 import { logoutAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
+import React from 'react';
 
-export default function Header(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+function Header(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
-  const userEmail = useAppSelector((state) => state.userEmail);
+  const userEmail = getUserEmail();
 
   return (
     <header className="header">
@@ -58,3 +62,5 @@ export default function Header(): JSX.Element {
     </header>
   );
 }
+
+export default React.memo(Header);

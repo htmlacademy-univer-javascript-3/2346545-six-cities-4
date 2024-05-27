@@ -1,4 +1,5 @@
 import { AuthData } from '../../types/auth-data';
+import { getCityName } from '../../store/offers-data/selectors';
 import { Link } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -13,7 +14,7 @@ export default function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector((state) => state.cityName);
+  const currentCity = useAppSelector(getCityName);
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));

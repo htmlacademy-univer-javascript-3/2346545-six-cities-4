@@ -1,124 +1,95 @@
-import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const/const';
+import { APIRoute, AppRoute } from '../const/const';
 import { AppDispatch, State } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { AxiosInstance } from 'axios';
 import { CommentData } from '../types/comment-data';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { dropToken, saveToken } from '../services/token';
-import { filterOffers, loadNearbyOffers, loadOfferComments, loadOfferInfo, loadOffers, redirectToRoute, requireAuthorization,
-  setCommentDataSending, setCurrentOfferDataLoading, setError, setOffersDataLoading, setUserEmail, addReview } from './action';import { Offer } from '../types/offer';
+import { Offer } from '../types/offer';
+import { redirectToRoute } from './action';
 import { ReviewType } from '../types/review';
-import { store } from '.';
+import { saveUserEmail } from '../services/user-email';
 import { UserData } from '../types/user-data';
 
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
 	dispatch: AppDispatch;
 	state: State;
 	extra: AxiosInstance;
 }>(
   'fetchOffers',
-  async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOffersDataLoading(true));
-    const { data } = await api.get<Offer[]>(APIRoute.Offers);
-    dispatch(setOffersDataLoading(false));
-    dispatch(loadOffers(data));
-    dispatch(filterOffers());
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Offer[]>(APIRoute.Offers);
+    return data;
   },
 );
 
-export const clearErrorAction = createAsyncThunk(
-  'clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-}>(
-  'checkAuth',
-  async (_arg, { dispatch, extra: api }) => {
-    try {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+  }>(
+    'checkAuth',
+    async (_arg, { extra: api}) => {
       await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
-  },
-);
+    },
+  );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-}>(
-  'login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
-    saveToken(data.token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Root));
-    dispatch(setUserEmail(data.email));
-  },
-);
+export const loginAction = createAsyncThunk<string, AuthData, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+  }>(
+    'login',
+    async ({login: email, password}, {dispatch, extra: api}) => {
+      const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(redirectToRoute(AppRoute.Root));
+      saveUserEmail(data.email);
+      return data.email;
+    },
+  );
 
 export const logoutAction = createAsyncThunk<void, undefined, {
 	dispatch: AppDispatch;
 	state: State;
 	extra: AxiosInstance;
-}>(
-  'logout',
-  async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    dispatch(setUserEmail(''));
-  },
-);
-
-export const offerInfoInitAction = createAsyncThunk<void, string, {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
   }>(
-    'offerInfoInit',
-    async(id, {dispatch, extra: api}) => {
-      dispatch(setCurrentOfferDataLoading(true));
-      const {data: offerData} = await api.get<Offer>(APIRoute.Offers + id);
-      const {data: nearbyOffersData} = await api.get<Offer[]>(APIRoute.Offers + id + APIRoute.NearbyOffers);
-      const {data: commentsData} = await api.get<ReviewType[]>(APIRoute.Comment + id);
-      dispatch(setCurrentOfferDataLoading(false));
-      dispatch(loadOfferInfo(offerData));
-      dispatch(loadNearbyOffers(nearbyOffersData));
-      dispatch(loadOfferComments(commentsData));
+    'logout',
+    async (_arg, {extra: api}) => {
+      await api.delete(APIRoute.Logout);
+      dropToken();
     },
   );
 
-export const sendOfferCommentAction = createAsyncThunk<void, {
+export const fetchOfferInfoAction = createAsyncThunk<{offerData: Offer; nearbyOffersData: Offer[]; commentsData: ReviewType[]}, string, {
+	dispatch: AppDispatch;
+	state: State;
+	extra: AxiosInstance;
+  }>(
+    'offerInfoInit',
+    async(id, {extra: api}) => {
+      const {data: offerData} = await api.get<Offer>(APIRoute.Offers + id);
+      const {data: nearbyOffersData} = await api.get<Offer[]>(APIRoute.Offers + id + APIRoute.NearbyOffers);
+      const {data: commentsData} = await api.get<ReviewType[]>(APIRoute.Comment + id);
+      return {offerData, nearbyOffersData, commentsData};
+    },
+  );
+
+export const sendOfferCommentAction = createAsyncThunk<ReviewType[], {
     id: string;
     commentData: CommentData;
     resetFormData: () => void;
       },
     {
-      dispatch: AppDispatch;
-      state: State;
-      extra: AxiosInstance;
+        dispatch: AppDispatch;
+        state: State;
+        extra: AxiosInstance;
     }>(
       'sendOfferComment',
-      async({id, resetFormData, commentData}, {dispatch, extra: api}) => {
-        try{
-          dispatch(setCommentDataSending(true));
-          const {data} = await api.post<ReviewType>(APIRoute.Comment + id, commentData);
-          dispatch(setCommentDataSending(false));
-          resetFormData();
-          dispatch(addReview(data));
-        } catch {
-          dispatch(setCommentDataSending(false));
-        }
+      async({id, resetFormData, commentData}, {extra: api}) => {
+        const {data} = await api.post<ReviewType[]>(APIRoute.Comment + id, commentData);
+        resetFormData();
+        return data;
       });

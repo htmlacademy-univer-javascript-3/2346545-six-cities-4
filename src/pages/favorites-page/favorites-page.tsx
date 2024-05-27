@@ -1,12 +1,8 @@
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import Header from '../../components/header/header';
-import { Offer } from '../../types/offer';
 
-type FavoriteScreenProps = {
-  offers: Offer[];
-}
 
-export default function FavoritesPage({ offers }: FavoriteScreenProps): JSX.Element {
+export default function FavoritesPage(): JSX.Element {
   return (
     <div className="page">
       <Header />
@@ -16,7 +12,7 @@ export default function FavoritesPage({ offers }: FavoriteScreenProps): JSX.Elem
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritesList offers={offers}/>
+              <FavoritesList/>
             </ul>
           </section>
         </div>

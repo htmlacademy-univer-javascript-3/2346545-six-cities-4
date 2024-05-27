@@ -28,7 +28,8 @@ export enum SlicesName {
 	User = 'USER',
 	OffersData = 'OFFERS_DATA',
 	CurrentOfferData = 'CURRENT_OFFER_DATA',
-	UserReview = 'USER_REVIEW',
+	FavoriteOffersData = 'FAVORITE_OFFERS_DATA',
+	UserReview = 'USER_REVIEW'
 }
 
 export enum CitiesName {
@@ -68,6 +69,7 @@ export enum SortingTypes {
 
 export enum APIRoute {
 	Comment = '/comments/',
+	FavoriteOffers = '/favorite/',
 	Login = '/login',
 	Logout = '/logout',
 	NearbyOffers = '/nearby',

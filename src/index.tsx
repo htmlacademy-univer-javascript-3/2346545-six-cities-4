@@ -1,4 +1,4 @@
-import { checkAuthAction, fetchOffersAction } from './store/api-actions';
+import { checkAuthAction, fetchFavoriteOffersAction, fetchOffersAction } from './store/api-actions';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { ToastContainer } from 'react-toastify';
@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom/client';
 
 
 store.dispatch(checkAuthAction());
+store.dispatch(fetchFavoriteOffersAction());
 store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(

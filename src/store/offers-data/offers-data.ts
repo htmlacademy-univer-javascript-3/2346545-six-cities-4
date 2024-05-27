@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchOffersAction } from '../api-actions';
+import { fetchOffersAction, setOfferFavoriteStatusAction } from '../api-actions';
 import { OffersData } from '../../types/state';
 import { CitiesName, SlicesName } from '../../const/const';
 
@@ -29,6 +29,15 @@ export const offersData = createSlice({
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isOffersDataLoading = false;
+        state.filteredOffers = state.offers.filter((offer)=> offer.city.name === state.cityName);
+      })
+      .addCase(setOfferFavoriteStatusAction.fulfilled, (state, action) => {
+        const index = state.offers.findIndex((offer) => offer.id === action.payload.id);
+        state.offers = [
+          ...state.offers.slice(0, index),
+          action.payload,
+          ...state.offers.slice(index + 1),
+        ];
         state.filteredOffers = state.offers.filter((offer)=> offer.city.name === state.cityName);
       });
   }

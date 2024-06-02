@@ -2,10 +2,12 @@ import { AuthData } from '../../types/auth-data';
 import { getCityName } from '../../store/offers-data/selectors';
 import { Link } from 'react-router-dom';
 import { loginAction } from '../../store/api-actions';
+import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useRef, FormEvent } from 'react';
 import { validatePassword } from '../../const/utils';
 
+const ERROR_MESSAGE = 'Password must contain at least one letter and one number';
 import Header from '../../components/header/header';
 
 
@@ -28,6 +30,8 @@ export default function LoginPage(): JSX.Element {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
+    } else {
+      toast(ERROR_MESSAGE);
     }
   };
 

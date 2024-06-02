@@ -1,4 +1,3 @@
-import { fetchOfferInfoAction } from '../../store/api-actions';
 import { FormEvent, useState } from 'react';
 import { getCommentDataSendingStatus } from '../../store/user-review/selectors';
 import { sendOfferCommentAction } from '../../store/api-actions';
@@ -40,7 +39,6 @@ export default function ReviewForm({id}: {id: string}): JSX.Element {
       comment: formData.review,
       rating: Number(formData.rating),
     }}));
-    dispatch(fetchOfferInfoAction(id));
   };
 
   return (

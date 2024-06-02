@@ -1,5 +1,4 @@
 import { AppRoute } from '../../const/const';
-import { browserHistory } from '../../browser-history';
 import { getAuthorizationStatus } from '../../store/authorization-user-process/selectors';
 import { getCurrentOfferDataLoadingStatus, getNearbyOffers, getOfferInfo } from '../../store/current-offer-data/selectors';
 import { getRatingStars } from '../../const/utils';
@@ -7,6 +6,7 @@ import { setOfferFavoriteStatusAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useState } from 'react';
 
+import browserHistory from '../../browser-history';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';

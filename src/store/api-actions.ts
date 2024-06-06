@@ -24,6 +24,36 @@ export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   },
 );
 
+export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+    'fetchFavoriteOffers',
+    async (_arg, {extra: api}) => {
+      const {data} = await api.get<Offer[]>(APIRoute.FavoriteOffers);
+
+      return data;
+    },
+  );
+
+export const setOfferFavoriteStatusAction = createAsyncThunk<Offer, {
+    id: string;
+    favoriteStatus: string;
+      },
+    {
+      dispatch: AppDispatch;
+      state: State;
+      extra: AxiosInstance;
+    }>(
+      'setOfferFavoriteStatus',
+      async({id, favoriteStatus}, {dispatch, extra: api}) => {
+        const {data} = await api.post<Offer>(`${APIRoute.FavoriteOffers + id.toString() }/${ favoriteStatus}`);
+        dispatch(fetchFavoriteOffersAction());
+
+        return data;
+      }
+    );
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
 	dispatch: AppDispatch;
@@ -46,6 +76,7 @@ export const loginAction = createAsyncThunk<string, AuthData, {
       const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
       saveToken(data.token);
       dispatch(redirectToRoute(AppRoute.Root));
+      dispatch(fetchOffersAction());
       saveUserEmail(data.email);
       return data.email;
     },
@@ -57,9 +88,10 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 	extra: AxiosInstance;
   }>(
     'logout',
-    async (_arg, {extra: api}) => {
+    async (_arg, {dispatch, extra: api}) => {
       await api.delete(APIRoute.Logout);
       dropToken();
+      dispatch(fetchOffersAction());
     },
   );
 
@@ -88,8 +120,9 @@ export const sendOfferCommentAction = createAsyncThunk<ReviewType[], {
         extra: AxiosInstance;
     }>(
       'sendOfferComment',
-      async({id, resetFormData, commentData}, {extra: api}) => {
+      async({id, resetFormData, commentData}, {dispatch, extra: api}) => {
         const {data} = await api.post<ReviewType[]>(APIRoute.Comment + id, commentData);
+        dispatch(fetchOfferInfoAction(id));
         resetFormData();
         return data;
       });

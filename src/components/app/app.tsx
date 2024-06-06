@@ -1,9 +1,7 @@
 import { AppRoute } from '../../const/const';
-import { browserHistory } from '../../browser-history';
 import { getCurrentOfferDataLoadingStatus } from '../../store/current-offer-data/selectors';
 import { getOffersDataLoadingStatus } from '../../store/offers-data/selectors';
 import { HelmetProvider } from 'react-helmet-async';
-import { HistoryRouter } from '../history-route/history-route';
 import { Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/index';
 
@@ -27,40 +25,38 @@ export default function App(): JSX.Element {
   }
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
+      <Routes>
 
-          <Route
-            path={AppRoute.Root}
-            element={<MainScreen/>}
-          />
+        <Route
+          path={AppRoute.Root}
+          element={<MainScreen/>}
+        />
 
-          <Route
-            path={AppRoute.Login}
-            element={<LoginScreen />}
-          />
+        <Route
+          path={AppRoute.Login}
+          element={<LoginScreen/>}
+        />
 
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute>
-                <FavoritesScreen/>
-              </PrivateRoute>
-            }
-          />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+	        <PrivateRoute>
+	          <FavoritesScreen/>
+	        </PrivateRoute>
+          }
+        />
 
-          <Route
-            path={AppRoute.Offer}
-            element={<OfferScreen/>}
-          />
+        <Route
+          path={AppRoute.Offer}
+          element={<OfferScreen/>}
+        />
 
-          <Route
-            path="*"
-            element={<NotFoundScreen />}
-          />
+        <Route
+          path="*"
+          element={<NotFoundScreen/>}
+        />
 
-        </Routes>
-      </HistoryRouter>
+      </Routes>
     </HelmetProvider>
   );
 }

@@ -1,4 +1,5 @@
 import { authorizationUserProcess } from './authorization-user-process/authorization-user-process';
+import { favoriteOffersData } from './favorite-offers-data/favorite-offers-data';
 import { combineReducers } from '@reduxjs/toolkit';
 import { currentOfferData } from './current-offer-data/current-offer-data';
 import { offersData } from './offers-data/offers-data';
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   [SlicesName.Page]: pageEvents.reducer,
   [SlicesName.OffersData]: offersData.reducer,
   [SlicesName.CurrentOfferData]: currentOfferData.reducer,
+  [SlicesName.FavoriteOffersData]: favoriteOffersData.reducer,
   [SlicesName.UserReview]: userReview.reducer,
 });

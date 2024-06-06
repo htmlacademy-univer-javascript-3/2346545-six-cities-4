@@ -37,11 +37,9 @@ test.describe('Favorites', () => {
     await page.goto('http://localhost:5173'); 
     await page.goto('http://localhost:5173/login');
 
-    // fill in the form
-    await page.fill('input[name="email"]', 'email2@gmail.com');
-    await page.fill('input[name="password"]', 'passwrd123');
+    await page.fill('input[name="email"]', 'rayangosling@gmail.com');
+    await page.fill('input[name="password"]', 'IDrive69');
 
-    // submit the form
     await page.click('button[type="submit"]');
 
     await page.waitForURL('http://localhost:5173');
@@ -51,14 +49,12 @@ test.describe('Favorites', () => {
 
     const addToFavoritesButton = await page.locator('.place-card__bookmark-button').all();
     await addToFavoritesButton[0].click(); // Добавление предложения в избранное
-    //wait for server response
     await page.waitForResponse((resp) => resp.url().includes(`/six-cities/favorite/`)
          && resp.status() === 201);
     await page.waitForTimeout(100);
     expect(await getFavoritesCount()).toBe(initialFavoritesCount + 1);
 
     await addToFavoritesButton[0].click(); // Удаление предложения из избранного
-    //wait for server response
     await page.waitForResponse((resp) => resp.url().includes(`/six-cities/favorite/`) && resp.status() === 200);
     await page.waitForTimeout(100);
     expect(await getFavoritesCount()).toBe(initialFavoritesCount);

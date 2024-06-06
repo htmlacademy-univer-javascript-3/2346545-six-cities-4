@@ -1,5 +1,4 @@
 import { AdClasses, AppRoute } from '../../const/const';
-import { browserHistory } from '../../browser-history';
 import { fetchOfferInfoAction, setOfferFavoriteStatusAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/authorization-user-process/selectors';
 import { getRatingStars } from '../../const/utils';
@@ -7,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { setCurrentOfferId } from '../../store/page-events/page-events.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import browserHistory from '../../browser-history';
 
 
 type OfferCardProps = {
@@ -60,7 +61,7 @@ export default function OfferCard({ offer, isMainScreen }: OfferCardProps): JSX.
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
-        <div className="place-card__rating rating">
+        <div className="place-card__rating rating" data-test={getRatingStars(rating)}>
           <div className="place-card__stars rating__stars">
             <span style={{ width: getRatingStars(rating) }}></span>
             <span className="visually-hidden">Rating</span>
